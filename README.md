@@ -1,65 +1,88 @@
 # Student Management System
 
-A polished Spring Boot project for managing student records with JWT-based authentication, validation, a browser dashboard, and database-backed persistence.
+A Spring Boot 3 project for managing student records with JWT authentication, validation, analytics endpoints, built-in documentation, and a browser dashboard.
 
-## Highlights
+## Overview
 
-- JWT-secured student CRUD APIs
-- Spring Boot 3 + Spring Security + Spring Data JPA
-- Input validation with clear error responses
-- Runs locally with embedded H2 by default
-- MySQL database integration when environment variables are provided
-- Sample student records loaded automatically at startup
-- Integration tests for login and protected endpoints
-- Browser dashboard for live demo
+This project demonstrates a complete backend-driven student management workflow:
+
+- secure login with JWT token generation
+- protected CRUD APIs for student records
+- course filtering, topper lookup, and statistics endpoints
+- a browser dashboard at `/ui`
+- built-in project documentation at `/docs`
+- local-first setup with embedded H2, plus optional MySQL support
+
+## Features
+
+- JWT-secured API flow
+- Spring Security integration
+- Spring Data JPA persistence layer
+- Bean validation with readable error responses
+- dashboard-style UI using Thymeleaf
+- demo data loader for quick presentation
+- automated integration tests with MockMvc
+- cloud-friendly startup using `PORT`
 
 ## Tech Stack
 
 - Java 17
-- Spring Boot
+- Spring Boot 3.3.5
 - Spring Security
 - Spring Data JPA
+- Thymeleaf
 - H2 Database
-- MySQL Database
-- Thymeleaf frontend
+- MySQL
+- Maven Wrapper
 
-## Demo Login
+## Demo Credentials
 
 - Username: `admin`
 - Password: `1234`
 
-## API Endpoints
+## Local Run
 
-- `GET /` : Project overview and demo information
-- `POST /auth/login` : Generate JWT token
-- `GET /students` : Get all students
-- `GET /students/course/{course}` : Get students from a course
-- `GET /students/topper` : Get highest scoring student
-- `GET /students/stats` : Get student analytics
-- `GET /students/{id}` : Get student by id
-- `POST /students` : Add a student
-- `PUT /students/{id}` : Update a student
-- `DELETE /students/{id}` : Delete a student
-- `GET /ui` : Open interactive dashboard
-- `GET /docs` : Open built-in project documentation page
+Run the app from the project root:
 
-## How To Run
-
-1. Open the project in your IDE.
-2. Run `StudentappApplication`.
-3. Visit `http://localhost:8080/` to show the project overview.
-4. Open `http://localhost:8080/docs` to show professional project documentation.
-5. Open `http://localhost:8080/ui` to show the live browser dashboard.
-6. Use `POST http://localhost:8080/auth/login` with the demo credentials.
-7. Copy the returned token and send it as:
-
-```http
-Authorization: Bearer <your-token>
+```powershell
+$env:MAVEN_USER_HOME="$PWD\\.m2"
+.\mvnw.cmd spring-boot:run
 ```
 
-8. Call the `/students` APIs.
+Open:
 
-## Sample Login Request
+- Home: `http://localhost:8080/`
+- Docs: `http://localhost:8080/docs`
+- Dashboard: `http://localhost:8080/ui`
+- H2 Console: `http://localhost:8080/h2-console`
+
+## Test the Project
+
+```powershell
+$env:MAVEN_USER_HOME="$PWD\\.m2"
+.\mvnw.cmd test
+```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/` | Project overview and demo details |
+| `POST` | `/auth/login` | Generate JWT token |
+| `GET` | `/students` | Get all students |
+| `GET` | `/students/{id}` | Get student by id |
+| `GET` | `/students/course/{course}` | Filter students by course |
+| `GET` | `/students/topper` | Get top-scoring student |
+| `GET` | `/students/stats` | Get student statistics |
+| `POST` | `/students` | Add a student |
+| `PUT` | `/students/{id}` | Update a student |
+| `DELETE` | `/students/{id}` | Delete a student |
+| `GET` | `/ui` | Open dashboard |
+| `GET` | `/docs` | Open built-in documentation |
+
+## Sample Requests
+
+Login:
 
 ```json
 {
@@ -68,7 +91,7 @@ Authorization: Bearer <your-token>
 }
 ```
 
-## Sample Add Student Request
+Create student:
 
 ```json
 {
@@ -78,11 +101,21 @@ Authorization: Bearer <your-token>
 }
 ```
 
-## Database Setup
+Use the token in protected requests:
 
-By default, the project runs locally with an embedded H2 database, so no separate database setup is required.
+```http
+Authorization: Bearer <your-token>
+```
 
-If you want to use MySQL instead, provide these environment variables before running the app:
+## Database Modes
+
+### Default local mode
+
+The app runs with embedded H2 by default, so no database installation is required for local demo or evaluation.
+
+### MySQL mode
+
+If you want to connect the project to MySQL, provide:
 
 - `DB_URL`
 - `DB_USERNAME`
@@ -90,22 +123,46 @@ If you want to use MySQL instead, provide these environment variables before run
 - `DB_DRIVER=com.mysql.cj.jdbc.Driver`
 - `JPA_DIALECT=org.hibernate.dialect.MySQLDialect`
 
-You can also open the embedded H2 console at `http://localhost:8080/h2-console`.
+## Deployment
 
-## Presentation Flow
+This repository is prepared for simple cloud deployment.
 
-1. Show the home endpoint to explain the project.
-2. Open the built-in docs page and show the documented APIs.
-3. Open the dashboard at `/ui`.
-4. Show the login API and generate the JWT token.
-5. Show course-wise filtering, topper lookup, and student statistics.
-6. Access protected student APIs with the token.
-7. Add a new student live.
-8. Update marks or course.
-9. Delete a student and explain secured CRUD flow.
+- `render.yaml` is included for Render
+- the app respects the `PORT` environment variable
+- local H2 works out of the box for quick demo deployment
+
+Detailed deployment and sharing content:
+
+- [DEPLOYMENT.md](./DEPLOYMENT.md)
+- [LINKEDIN_POST.md](./LINKEDIN_POST.md)
+
+## Project Structure
+
+```text
+src/main/java/com/piyush/studentapp
+|- config
+|- controller
+|- dto
+|- exception
+|- model
+|- repository
+|- security
+```
+
+## Demo Flow
+
+1. Open `/` and explain the project.
+2. Open `/docs` and show the documented endpoints.
+3. Open `/ui` and show the dashboard.
+4. Call `/auth/login` with the demo user.
+5. Use the token on `/students`.
+6. Show `/students/course/{course}`, `/students/topper`, and `/students/stats`.
+7. Create, update, and delete a student live.
 
 ## Future Improvements
 
-- Add role-based authorization
-- Export reports for student performance
-- Add user registration and profile management
+- role-based authorization
+- student attendance or marks history
+- CSV or PDF export
+- user registration flow
+- hosted production database

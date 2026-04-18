@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: piyush1008-cyber-studentapp
+    runtime: java
+    plan: starter
+    buildCommand: "./mvnw clean package -DskipTests"
+    startCommand: "java -jar target/studentapp-0.0.1-SNAPSHOT.jar"
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
