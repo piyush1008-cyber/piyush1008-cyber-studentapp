@@ -1,13 +1,14 @@
 # Student Management System
 
-A polished Spring Boot project for managing student records with JWT-based authentication, validation, a browser dashboard, and a MySQL database.
+A polished Spring Boot project for managing student records with JWT-based authentication, validation, a browser dashboard, and database-backed persistence.
 
 ## Highlights
 
 - JWT-secured student CRUD APIs
 - Spring Boot 3 + Spring Security + Spring Data JPA
 - Input validation with clear error responses
-- MySQL database integration
+- Runs locally with embedded H2 by default
+- MySQL database integration when environment variables are provided
 - Sample student records loaded automatically at startup
 - Integration tests for login and protected endpoints
 - Browser dashboard for live demo
@@ -18,6 +19,7 @@ A polished Spring Boot project for managing student records with JWT-based authe
 - Spring Boot
 - Spring Security
 - Spring Data JPA
+- H2 Database
 - MySQL Database
 - Thymeleaf frontend
 
@@ -76,21 +78,19 @@ Authorization: Bearer <your-token>
 }
 ```
 
-## MySQL Setup
+## Database Setup
 
-By default, the project is configured for:
+By default, the project runs locally with an embedded H2 database, so no separate database setup is required.
 
-- Database: `studentdb`
-- Username: `root`
-- Password: `piyush123`
-
-If your MySQL setup is different, provide these environment variables before running the app:
+If you want to use MySQL instead, provide these environment variables before running the app:
 
 - `DB_URL`
 - `DB_USERNAME`
 - `DB_PASSWORD`
 - `DB_DRIVER=com.mysql.cj.jdbc.Driver`
 - `JPA_DIALECT=org.hibernate.dialect.MySQLDialect`
+
+You can also open the embedded H2 console at `http://localhost:8080/h2-console`.
 
 ## Presentation Flow
 
