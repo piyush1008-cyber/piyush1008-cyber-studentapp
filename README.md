@@ -11,7 +11,8 @@ This project demonstrates a complete backend-driven student management workflow:
 - course filtering, topper lookup, and statistics endpoints
 - a browser dashboard at `/ui`
 - built-in project documentation at `/docs`
-- local-first setup with embedded H2, plus optional MySQL support
+- MySQL-backed persistence for student records
+- H2-supported automated test setup
 
 ## Features
 
@@ -31,8 +32,8 @@ This project demonstrates a complete backend-driven student management workflow:
 - Spring Security
 - Spring Data JPA
 - Thymeleaf
-- H2 Database
 - MySQL
+- H2
 - Maven Wrapper
 
 ## Demo Credentials
@@ -54,7 +55,6 @@ Open:
 - Home: `http://localhost:8080/`
 - Docs: `http://localhost:8080/docs`
 - Dashboard: `http://localhost:8080/ui`
-- H2 Console: `http://localhost:8080/h2-console`
 
 ## Test the Project
 
@@ -107,15 +107,17 @@ Use the token in protected requests:
 Authorization: Bearer <your-token>
 ```
 
-## Database Modes
+## Database Setup
 
-### Default local mode
+This project is configured to use MySQL `studentdb` for normal app runs, so student records are stored in the MySQL database.
 
-The app runs with embedded H2 by default, so no database installation is required for local demo or evaluation.
+Default local settings:
 
-### MySQL mode
+- Database: `studentdb`
+- Username: `root`
+- Password: `piyush123`
 
-If you want to connect the project to MySQL, provide:
+If your MySQL setup is different, provide:
 
 - `DB_URL`
 - `DB_USERNAME`
@@ -129,7 +131,7 @@ This repository is prepared for simple cloud deployment.
 
 - `render.yaml` is included for Render
 - the app respects the `PORT` environment variable
-- local H2 works out of the box for quick demo deployment
+- tests still run with an isolated H2 test profile
 
 Detailed deployment and sharing content:
 
